@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Nannalu</title>
+    <style>
+        body { background: #ffe6e6; font-family: sans-serif; text-align: center; margin: 0; overflow-x: hidden; }
+        .screen { display: none; padding: 20px; animation: fadeIn 0.8s; }
+        .active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .welcome-msg { color: #444; font-size: 18px; margin: 20px auto; max-width: 80%; line-height: 1.4; }
+
+        .balloon-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; margin-top: 40px; }
+        
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(-2deg); }
+            50% { transform: translateY(-15px) rotate(2deg); }
+            100% { transform: translateY(0px) rotate(-2deg); }
+        }
+
+        .balloon-wrapper { display: flex; flex-direction: column; align-items: center; animation: float 3s ease-in-out infinite; }
+        .balloon { width: 75px; height: 95px; border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%; cursor: pointer; position: relative; box-shadow: inset -5px -5px 15px rgba(0,0,0,0.1); }
+        .string { width: 2px; height: 50px; background: rgba(0,0,0,0.1); position: relative; top: -5px; }
+
+        .heart-section { margin-top: 80px; padding-bottom: 50px; }
+        .heart-container { display: flex; flex-direction: column; align-items: center; cursor: pointer; animation: float 4s ease-in-out infinite; }
+        .heart { position: relative; width: 60px; height: 60px; background: #e63946; transform: rotate(-45deg); }
+        .heart:before, .heart:after { content: ""; width: 60px; height: 60px; background: #e63946; border-radius: 50%; position: absolute; }
+        .heart:before { top: -30px; left: 0; }
+        .heart:after { left: 30px; top: 0; }
+
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 100; overflow-y: auto; }
+        .polaroid { background: white; width: 85%; max-width: 340px; margin: 10% auto; padding: 15px 15px 35px 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); transform: rotate(-2deg); }
+        .polaroid img { width: 100%; aspect-ratio: 1/1; object-fit: cover; background: #eee; }
+        .message-card { background: white; width: 85%; margin: 5% auto; padding: 25px; border-radius: 15px; text-align: left; line-height: 1.6; color: #333; }
+        
+        .btn { background: #ff3385; color: white; border: none; padding: 15px 40px; border-radius: 30px; font-size: 18px; margin-top: 20px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 15px rgba(255, 51, 133, 0.3); }
+    </style>
+</head>
+<body>
+
+    <div id="screen1" class="screen active">
+        <h1 style="color: #d63384; margin-top: 80px; font-size: 32px;">Happy Valentine's Day,<br>Nannalu 🎆</h1>
+        <div class="welcome-msg">
+            I've prepared something special for you. Pop all the balloons on the next screen to uncover! 💕
+        </div>
+        <button class="btn" onclick="showScreen('screen2')">Start the Magic 🎇</button>
+    </div>
+
+    <div id="screen2" class="screen">
+        <h2 style="color: #d63384; margin-bottom: 10px;">Pop the balloons, Nannalu! 🎈</h2>
+        
+        <div class="balloon-grid">
+            <div class="balloon-wrapper" style="animation-delay: 0s;"><div class="balloon" style="background:#ffadad" onclick="pop(1, this.parentElement)"></div><div class="string"></div></div>
+            <div class="balloon-wrapper" style="animation-delay: 0.5s;"><div class="balloon" style="background:#ffd6a5" onclick="pop(2, this.parentElement)"></div><div class="string"></div></div>
+            <div class="balloon-wrapper" style="animation-delay: 0.2s;"><div class="balloon" style="background:#fdffb6" onclick="pop(3, this.parentElement)"></div><div class="string"></div></div>
+            <div class="balloon-wrapper" style="animation-delay: 0.8s;"><div class="balloon" style="background:#caffbf" onclick="pop(4, this.parentElement)"></div><div class="string"></div></div>
+            <div class="balloon-wrapper" style="animation-delay: 0.3s;"><div class="balloon" style="background:#9bf6ff" onclick="pop(5, this.parentElement)"></div><div class="string"></div></div>
+        </div>
+
+        <div class="heart-section">
+            <div class="heart-container" onclick="pop(6, this)">
+                <div class="heart"></div>
+                <div class="string" style="height: 40px; top: 40px; transform: rotate(45deg);"></div>
+                <p style="margin-top: 50px; color: #e63946; font-weight: bold;">The Final Surprise ❤️</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-polaroid" class="modal" onclick="this.style.display='none'">
+        <div class="polaroid">
+            <img id="p-img" src="" alt="Photo">
+            <div id="p-text" style="margin-top:15px; font-weight:500; color: #333; font-size: 15px;"></div>
+        </div>
+    </div>
+
+    <div id="modal-final" class="modal" onclick="this.style.display='none'">
+        <div class="message-card">
+            <h3 style="color: #d63384; text-align: center;">Happy Valentine's Day, Nannalu! 🌹</h3>
+            <p>Love is worth celebrating every day, but today is a special reminder of how deeply u are cherished. U bring light, warmth & happiness wherever u go. May our journey together be filled with laughter, countless & beautiful memories. Here's to love in its truest, most magical form. ✨💖</p>
+            <p>I want to spend my whole life with you. Even on my worst days, when you are beside me, I forget all my pain. People judge me for my leg or look at it in a special way. But you never look at me like that. With u, I can be myself without any fear of being judged ❤️🩹</p>
+            <p>I always want to treat u right, but sometimes I shout or we argue. Even then, it’s only because I want to be close to u and never lose u . My love for u is something I can’t fully express in words. I just hope this distance between us disappears soon 🧿</p>
+        </div>
+    </div>
+
+    <script>
+        function showScreen(id) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+        }
+
+        function pop(num, el) {
+            const msgs = [
+                "1. Your face next to mine is my favorite view. Every selfie with you holds a piece of my heart 💝",
+                "2. Sitting beside you like this, everything feels right. Your smile gives me comfort, and your presence gives me peace. With you, life feels simple, happy, and complete. I’m so grateful to walk this journey hand in hand with you💕",
+                "3. In your arms, I find my safest place. This hug says more than a thousand words ever could. With you holding me like this, the world feels softer and all my worries disappear. I could stay right here forever. I never want to let go of moments like this🫂",
+                "4. Even if miles are between us, my heart still walks be-side you every single day. You are my favorite person, my biggest smile and my forever happiness and the reason my heart feels so full 🤍",
+                "5. You are my strength in ways you don’t even realize. When I feel weak, your presence makes me stronger. You stand behind me like my backbone, giving me courage to face anything. With you by my side, I know I can overcome anything 💪❣️"
+            ];
+
+            if (num <= 5) {
+                document.getElementById('p-img').src = "photo" + num + ".jpg";
+                document.getElementById('p-text').innerText = msgs[num-1];
+                document.getElementById('modal-polaroid').style.display = 'block';
+            } else {
+                document.getElementById('modal-final').style.display = 'block';
+            }
+            el.style.visibility = 'hidden';
+        }
+    </script>
+</body>
+</html>
